@@ -1,5 +1,12 @@
-const dict={ar:{home:'الرئيسية',athkar:'الأذكار',quran:'القرآن الكريم',hadiths:'الأحاديث',duas:'الأدعية اليومية',medicine:'الطب النبوي',tools:'الأدوات الإسلامية',about:'عن المشروع',reset:'إعادة ضبط جميع العدادات',listen:'استمع',morning:'أذكار الصباح',evening:'أذكار المساء',credits:'إعداد الطالب',nfc:'كيفية عمل NFC',nfcText:'عند تقريب الهاتف من بطاقة NFC المبرمجة برابط الموقع، يفتح المتصفح الصفحة مباشرة على الهواتف الداعمة.',prayer:'مواقيت الصلاة',names:'أسماء الله الحسنى',hijri:'التاريخ الهجري',white:'الأيام البيض: 13 و14 و15 من كل شهر هجري. تحقق من التاريخ المحلي.',loading:'جاري التحميل',error:'تعذر تحميل البيانات. تأكد من الاتصال بالإنترنت.',city:'المدينة',date:'التاريخ',sources:'المصدر'}};
-function lang(){return 'ar'}
-function t(k){return dict.ar[k]||k}
-function init(){document.documentElement.lang='ar';document.documentElement.dir='rtl';document.body.dir='rtl';document.querySelectorAll('[data-i18n]').forEach(x=>x.textContent=t(x.dataset.i18n));document.querySelectorAll('[data-lang-ar]').forEach(x=>x.textContent=x.dataset.langAr)}
-document.addEventListener('DOMContentLoaded',init);
+// إعدادات عامة: الموقع باللغة العربية فقط، ولا يوجد زر لتغيير اللغة.
+document.documentElement.lang='ar';
+document.documentElement.dir='rtl';
+// تأثير ظهور هادئ عند تمرير الصفحة. يعمل الموقع أيضاً إذا لم يدعم المتصفح الميزة.
+document.addEventListener('DOMContentLoaded',()=>{
+  const cards=document.querySelectorAll('.feature-card,.card,.info-panel');
+  if(!('IntersectionObserver' in window))return;
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('shown');observer.unobserve(entry.target)}});
+  },{threshold:.08});
+  cards.forEach(card=>{card.classList.add('reveal');observer.observe(card)});
+});
